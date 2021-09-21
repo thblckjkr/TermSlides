@@ -1,0 +1,188 @@
+<!DOCTYPE html><html class="sl-root decks export loaded ua-phantomjs reveal-viewport theme-font-montserrat theme-color-white-blue"><head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Presentación - TGC</title>
+		<meta name="description" content="Slides">
+		<link rel="stylesheet" href="css/term.css">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="node_modules/xterm/dist/xterm.css">
+		<script type="module">
+		  import * as attach from "./node_modules/xterm/dist/addons/attach/attach.js";
+		  import * as fit from "./node_modules/xterm/dist/addons/fit/fit.js";</script>
+		<link rel="stylesheet" href="css/reveal.css">
+		<!-- <link rel="stylesheet" href="css/term.css"> -->
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<style id="user-css-output" type="text/css"></style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
+				<section data-markdown="git101/git-1.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+
+				<section data-state="terminal-0">
+				<div class="sl-block" data-block-type="shape" style="min-width: 40px; min-height: 4px; width: 960px; height: 450px; left: 0px; top: 210px;">
+					<div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="#000000" data-shape-stretch="true" style="z-index: 11;">
+						<div class="terminal custom terminalWindow" data-cmd="cd ; ls ; pwd" style="margin: auto; display: inline-block;null">
+                <div class="custom fakeMenu">
+                    <div class="custom fakeButtons fakeZoom" onclick="minimizeTerminal(this)"></div>
+                    <div class="custom fakeButtons fakeClose" onclick="closeTerminal(this)"></div>
+                </div>
+                <div class="custom fakeScreen">
+                    <div data-is-terminal="" data-cmd="cd ; ls ; pwd" style="height:100%"></div>
+                </div></div>
+					</div>
+				</div>
+				</section>
+
+				<section data-markdown="git101/git-2.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+
+			</div>
+		</div>
+		
+    <script>
+        var SLConfig = {
+            "deck": {}
+        };
+    </script>
+		
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			var initializedTerminals = {};
+			
+        function minimizeTerminal(screen) {
+            if (screen.parentNode.parentNode.getElementsByClassName("fakeScreen")[0].style.display == "")
+                screen.parentNode.parentNode.getElementsByClassName("fakeScreen")[0].style.display = "none";
+            else
+                screen.parentNode.parentNode.getElementsByClassName("fakeScreen")[0].style.display = "";
+        }
+        function closeTerminal(screen) {
+            screen.parentNode.parentNode.style.display = "none";
+        }
+        Reveal.initialize({
+            dependencies: [
+                { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                { src: 'highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                { src: 'notes/notes.js' },
+                { src: 'node_modules/xterm/dist/xterm.js', async: true, callback: function() {
+                    Terminal.applyAddon(attach);
+                    Terminal.applyAddon(fit);
+                    var hostPort = location.hostname + ':' + location.port;
+                    var terminalsUrl = 'http://' + hostPort + '/terminals';
+                    var startSlide = Reveal.getCurrentSlide();
+                    var sectionEls = document.querySelectorAll('section[data-state^="terminal"]');
+                    sectionEls.forEach(function(section) {
+                        let stateName = section.getAttribute('data-state');
+                        let handler = function () {
+                            if (initializedTerminals[stateName]) {
+                                return;
+                            }
+                            let terminalEl = section.querySelectorAll('*[data-is-terminal]');
+                            if (!terminalEl) {
+                                console.warn('section ' + stateName + ' had no associated terminal, ignoring');
+                                initializedTerminals[stateName] = true;
+                                return;
+                            }
+                            for (let index = 0; index < terminalEl.length; index++) {
+                                if (initializedTerminals[stateName + index]) {
+                                    continue;
+                                }
+                                console.log('initializing terminal for section ' + stateName + '.' + index);
+                                let pid = 0;
+                                let term = initializedTerminals[stateName + index] = new Terminal({
+                                    'macOptionIsMeta': true,
+                                    'theme': {},
+                                    'cols': terminalEl[index].getAttribute('data-cols') || 20,
+                                    'rows': terminalEl[index].getAttribute('data-rows') || 20,
+                                    'fontSize': terminalEl[index].getAttribute('data-fontsize') || 12
+                                });
+                                term.on('resize', function (size) {
+                                    if (!pid) {
+                                        return;
+                                    }
+                                    let cols = size.cols,
+                                    rows = size.rows,
+                                    url = terminalsUrl + '/' + pid + '/size?cols=' + cols + '&rows=' + rows;
+                                    fetch(url, {method: 'POST'});
+                                });
+                                term.open(terminalEl[index]);
+                                term.setOption('fontFamily', 'monospace');
+                                term.setOption('enableBold', 'true');
+                                term.setOption('cursorBlink', true);
+                                term.setOption('fontSize', 13);
+                                term.fit();
+                                Reveal.layout();
+                                let cwd = terminalEl[index].getAttribute('data-cwd');
+                                let cmd = terminalEl[index].getAttribute('data-cmd');
+                                let cmdnowrite = terminalEl[index].getAttribute('data-cmd-nowrite');
+                                fetch(terminalsUrl + '?cols=' + term.cols + '&rows=' + term.rows +(cwd ? '&cwd=' + cwd : '') + (cmd ? '&cmd=' + cmd : '') + (cmdnowrite ? '&cmdnowrite=' + cmdnowrite : ''),{method: 'POST'}).then(function (res) {
+                                    res.text().then(function (processId) {
+                                        console.log('connecting to PID ' + processId);
+                                        pid = processId;
+                                        var socket = new WebSocket('ws://' + hostPort + '/terminals/' + processId);
+                                        socket.onopen = function() {
+                                            term.attach(socket);
+                                            term._initialized = true;
+                                            term.fit();
+                                            Reveal.layout();
+                                        };
+                                    });
+                                });
+                            }
+                        };
+                        if (startSlide === section) {
+                            handler();
+                        } else {
+                            Reveal.addEventListener(stateName, handler, false);
+                        };
+                    });
+                }}
+            ],
+        
+				width: 960,
+				height: 700,
+				margin: 0.05,
+
+				controls: true,
+				progress: true,
+				history: true,
+				mouseWheel: false,
+				// showNotes: 'separate-page',
+				slideNumber: false,
+
+				autoSlide: 0,
+				autoSlideStoppable: true,
+
+				rollingLinks: false,
+				center: true,
+				shuffle: SLConfig.deck.shuffle || false,
+				loop: SLConfig.deck.should_loop || false,
+				rtl: SLConfig.deck.rtl || false,
+
+				transition: SLConfig.deck.transition,
+				backgroundTransition: SLConfig.deck.background_transition,
+
+				pdfMaxPagesPerSlide: 1,
+                // Optional libraries used to extend on reveal.js
+				// dependencies: [
+				// 	{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+				// 	{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            //         { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            //         { src: 'highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+				// 	{ src: 'notes/notes.js' }
+				// ],
+			});
+
+			if( window.hljs ) hljs.initHighlightingOnLoad();
+		</script>
+
+		
+
+	
+
+</body></html>

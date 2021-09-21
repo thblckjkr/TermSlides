@@ -4,38 +4,46 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>Markdown slides presentation</title>
+		<title>Presentación - TGC</title>
 		<meta name="description" content="Slides">
 		<link rel="stylesheet" href="css/reveal.css">
 		<!-- <link rel="stylesheet" href="css/term.css"> -->
-		<link rel="stylesheet" href="css/theme/noupper_white.css" id="theme">
+		<link rel="stylesheet" href="css/highlight.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
 
 		<style id="user-css-output" type="text/css"></style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-                <!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
-                <section data-markdown="git.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+				<!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
+				<section data-markdown="git101/git-1.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
 
-                <section>
-                    <div class="sl-block" data-block-type="shape"
-						style="min-width: 40px; min-height: 4px; width: 960px; height: 450px; left: 0px; top: 210px;">
+				<section>
+					<div class="sl-block" data-block-type="shape"
+					style="min-width: 40px; min-height: 4px; width: 960px; height: 450px; left: 0px; top: 210px;">
 						<div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="#000000"
 							data-shape-stretch="true" style="z-index: 11;">
-							<div class="terminal" data-cmd="cd ; ls"></div>
+							<div class="terminal" data-cmd="cd ; ls ; pwd"></div>
 						</div>
 					</div>
-                </section>
-                
-                <!-- Slide attributes -->
-                <section data-markdown>
-                    <script type="text/template">
-                        <!-- .slide: data-background="#000000" -->
-                        ## Slide attributes
-                    </script>
-                </section>
-            </div>
+				</section>
+
+				<section data-markdown="git101/git-2.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+
+				<section>
+					<div class="sl-block" data-block-type="shape"
+					style="min-width: 40px; min-height: 4px; width: 960px; height: 450px; left: 0px; top: 210px;">
+						<div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="#000000"
+							data-shape-stretch="true" style="z-index: 11;">
+							<div class="terminal" data-cmd="cd ; ls ; pwd"></div>
+						</div>
+					</div>
+				</section>
+
+				<section data-markdown="git101/git-3.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+				<section data-markdown="git101/git-4.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+			</div>
 		</div>
 		
     <script>
@@ -78,8 +86,8 @@
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                     { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                    { src: 'highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'notes/notes.js' }
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/notes/notes.js' }
 				],
 			});
 
