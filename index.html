@@ -12,6 +12,7 @@
 		  import * as fit from "./node_modules/xterm/dist/addons/fit/fit.js";</script>
 		<link rel="stylesheet" href="css/reveal.css">
 		<!-- <link rel="stylesheet" href="css/term.css"> -->
+		<link rel="stylesheet" href="css/highlight.css">
 		<link rel="stylesheet" href="css/theme/black.css" id="theme">
 
 		<style id="user-css-output" type="text/css"></style>
@@ -23,22 +24,40 @@
 				<section data-markdown="git101/git-1.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
 
 				<section data-state="terminal-0">
-				<div class="sl-block" data-block-type="shape" style="min-width: 40px; min-height: 4px; width: 960px; height: 450px; left: 0px; top: 210px;">
-					<div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="#000000" data-shape-stretch="true" style="z-index: 11;">
-						<div class="terminal custom terminalWindow" data-cmd="cd ; ls ; pwd" style="margin: auto; display: inline-block;null">
+					<div class="sl-block" data-block-type="shape" style="min-width: 40px; min-height: 4px; width: 960px; height: 450px; left: 0px; top: 210px;">
+						<!-- <div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="#000000"
+							data-shape-stretch="true" style="z-index: 11;"> -->
+							<div class="terminal custom terminalWindow" data-cmd="cd ~/git101 ; /bin/zsh ; clear" data-fontsize="30px" style="margin: auto; display: inline-block;null">
                 <div class="custom fakeMenu">
                     <div class="custom fakeButtons fakeZoom" onclick="minimizeTerminal(this)"></div>
                     <div class="custom fakeButtons fakeClose" onclick="closeTerminal(this)"></div>
                 </div>
                 <div class="custom fakeScreen">
-                    <div data-is-terminal="" data-cmd="cd ; ls ; pwd" style="height:100%"></div>
+                    <div data-is-terminal="" data-cmd="cd ~/git101 ; /bin/zsh ; clear" data-fontsize="30px" style="height:100%"></div>
                 </div></div>
+						<!-- </div> -->
 					</div>
-				</div>
 				</section>
 
 				<section data-markdown="git101/git-2.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+				<section data-markdown="git101/git-3.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
 
+				<section data-state="terminal-1">
+					<div class="sl-block" data-block-type="shape" style="min-width: 40px; min-height: 4px; width: 960px; height: 450px; left: 0px; top: 210px;">
+						<div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="#000000" data-shape-stretch="true" style="z-index: 11;">
+							<div class="terminal custom terminalWindow" data-cmd="cd ~/git101 ; /bin/zsh ; clear" data-fontsize="30px" style="margin: auto; display: inline-block;null">
+                <div class="custom fakeMenu">
+                    <div class="custom fakeButtons fakeZoom" onclick="minimizeTerminal(this)"></div>
+                    <div class="custom fakeButtons fakeClose" onclick="closeTerminal(this)"></div>
+                </div>
+                <div class="custom fakeScreen">
+                    <div data-is-terminal="" data-cmd="cd ~/git101 ; /bin/zsh ; clear" data-fontsize="30px" style="height:100%"></div>
+                </div></div>
+						</div>
+					</div>
+				</section>
+
+				<section data-markdown="git101/git-4.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
 			</div>
 		</div>
 		
@@ -65,10 +84,11 @@
         }
         Reveal.initialize({
             dependencies: [
+                { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
                 { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                 { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                { src: 'highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-                { src: 'notes/notes.js' },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                { src: 'plugin/notes/notes.js' },
                 { src: 'node_modules/xterm/dist/xterm.js', async: true, callback: function() {
                     Terminal.applyAddon(attach);
                     Terminal.applyAddon(fit);
@@ -173,8 +193,8 @@
 				// 	{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 				// 	{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
             //         { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-            //         { src: 'highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-				// 	{ src: 'notes/notes.js' }
+            //         { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+				// 	{ src: 'plugin/notes/notes.js' }
 				// ],
 			});
 

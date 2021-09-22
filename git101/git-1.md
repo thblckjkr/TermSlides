@@ -99,6 +99,13 @@ $ git clone https://github.com/rstudio/revealjs.git
 ```
 
 
+## Comprobar el **estado**
+
+```sh
+$ git status
+```
+
+
 
 ## Agregar tus **cambios**
 

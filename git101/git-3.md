@@ -8,6 +8,13 @@ Existe algo llamado **ramas**, las ramas son copias de tu código en la que pued
 ![Diagrama clásico de ramas](git101/assets/ramas.png)
 
 
+## Crear una nueva rama
+
+```sh
+$ git checkout -b rama
+```
+
+
 ## Mezlcas
 
 ```sh

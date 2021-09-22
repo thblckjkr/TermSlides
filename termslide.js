@@ -34,10 +34,11 @@ if (!process.argv[2] && !process.argv[3]) {
         }
         Reveal.initialize({
             dependencies: [
+                { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
                 { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                 { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                { src: 'highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-                { src: 'notes/notes.js' },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                { src: 'plugin/notes/notes.js' },
                 { src: 'node_modules/xterm/dist/xterm.js', async: true, callback: function() {
                     Terminal.applyAddon(attach);
                     Terminal.applyAddon(fit);
