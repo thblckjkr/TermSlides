@@ -3,6 +3,18 @@
 Existe algo llamado **ramas**, las ramas son copias de tu código en la que puedes hacer cambios que no se compartirán con el historial principal.
 
 
+**Diagrama de ramas**
+
+![Diagrama clásico de ramas](git101/assets/ramas.png)
+
+
+## Mezlcas
+
+```sh
+$ git merge RAMA_REMOTA
+```
+
+
 ## ¿Master? ¿O Main?
 
 La mayor parte de la documentación mencionará la rama **master** como la rama principal.
