@@ -292,3 +292,9 @@ body {
 .reveal li:nth-of-type(3n) em {
   color: #F9A825;
 }
+
+.reveal section img {
+  background: none;
+  border: 0px;
+  box-shadow: none;
+}
