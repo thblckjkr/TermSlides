@@ -95,17 +95,138 @@ Mención honorífica: Netlify
 Véase [Crypto miners are killing free CI](https://webapp.io/blog/crypto-miners-are-killing-free-ci/)
 
 
+## ¿Cómo funciona?
 
-## Docker
+Se parte de una imagen de docker, en la cual se ejecutan una serie de scripts.
 
-Es una plataforma para crear contenedores de software, una sencilla forma de **estandarizar** imágenes.
-
-
-Permiten tener versiones específicas de software, como servidores de autenticación, bases de datos con una versión específica.
+Generalmente se escriben instrucciones en **yaml** y se envían junto con el repositorio.
 
 
+## ¿Porqué **Docker**?
 
-**Devcontainers**
+Es una plataforma para crear contenedores de software, una sencilla forma de **estandarizar** ambientes de producción (y desarrollo)
+
+
+Permite tener versiones específicas de software, como servidores de autenticación, bases de datos con una versión específica.
+
+
+Ejemplo de un archivo *Docker*
+
+```dockerfile
+FROM buildpack-deps:buster
+
+RUN curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH.tar.xz" \
+   && tar -xJf "node-v$NODE_VERSION-linux-$ARCH.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
+   && ln -s /usr/local/bin/node /usr/local/bin/nodejs;
+```
+
+Note: Con el uso de herramientas como docker-compose, pueden incluso crearse ambientes completos (con múltiples bases de datos y servicios) en segundos, pero eso es tema para otra ocasión.
+
+
+Ejemplo con *GitlabCI*:
+
+```yml
+#.gitlab-ci.yml
+variables:
+  NPM_TOKEN: ${CI_JOB_TOKEN}
+
+stages:
+  - release
+default:
+  image: node:latest
+  before_script:
+    # Parecido a npm install
+    - npm ci --cache .npm --prefer-offline 
+    - npm run build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+      
+publish:
+  stage: release
+  script:
+    - npm run semantic-release
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+```
+
+
+Ejemplo con *Github Actions*:
+
+```yml
+#.github/workflows/nom-build.yml
+name: NodeJS CI
+on: [push]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+          
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - run: npm run build --if-present
+```
+
+
+Ejemplo con *Jenkins*
+
+```json
+pipeline {
+  agent any
+ 
+  tools {nodejs "node"}
+ 
+  stages {
+    stage('install') {
+      steps {
+        sh 'npm ci'
+      }
+    }
+    stage('build') {
+       steps {
+         sh 'npm run build'
+       }
+    }
+  }
+}
+```
+
+
+## Recomendaciones
+
+- Utilizar herramientas de *variables de ambiente* que provee su proveedor.
+- Tener un *repositorio* de scripts centralizado [como KDE lo hace](https://invent.kde.org/sysadmin/ci-tooling)
+- Utilizar *cachés* si es posible.
 
 
 
+Cosas necesarias para tener una metodología de integración contínua
+
+- Crear una metodología de nombramiento de *ramas*
+- Convenciones para *commits*
+- Crear un *pipeline* efectivo
+- Establecer permisos
+
+
+Gracias por su atención
+
+\- Teo [@thblckjkr](https://thblckjkr.tk)
+
+
+**Créditos**
+
+A Areli por ayudarme en proofreading
+
+y Alan Ovalle por ayudarme con el diseño y presentación.
+
+
+## ¿Preguntas?
