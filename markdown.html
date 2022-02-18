@@ -17,32 +17,9 @@
 		<div class="reveal">
 			<div class="slides">
 				<!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
-				<section data-markdown="git101/git-1.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+				<section data-markdown="git101/capitulo3.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
 
-				<section>
-					<div class="sl-block" data-block-type="shape"
-					style="min-width: 40px; min-height: 4px; width: 960px; height: 450px; left: 0px; top: 210px;">
-						<!-- <div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="#000000"
-							data-shape-stretch="true" style="z-index: 11;"> -->
-							<div class="terminal" data-cmd="cd ~/git101 ; /bin/zsh ; clear" data-fontsize="30px"></div>
-						<!-- </div> -->
-					</div>
-				</section>
-
-				<section data-markdown="git101/git-2.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
-				<section data-markdown="git101/git-3.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
-
-				<section>
-					<div class="sl-block" data-block-type="shape"
-					style="min-width: 40px; min-height: 4px; width: 960px; height: 450px; left: 0px; top: 210px;">
-						<div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="#000000"
-							data-shape-stretch="true" style="z-index: 11;">
-							<div class="terminal" data-cmd="cd ~/git101 ; /bin/zsh ; clear" data-fontsize="30px"></div>
-						</div>
-					</div>
-				</section>
-
-				<section data-markdown="git101/git-4.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+				
 			</div>
 		</div>
 		
@@ -81,14 +58,14 @@
 				backgroundTransition: SLConfig.deck.background_transition,
 
 				pdfMaxPagesPerSlide: 1,
-                // Optional libraries used to extend on reveal.js
-				// dependencies: [
-				// 	{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-				// 	{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-            //         { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-            //         { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-				// 	{ src: 'plugin/notes/notes.js' }
-				// ],
+               //  Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/notes/notes.js' }
+				],
 			});
 
 			if( window.hljs ) hljs.initHighlightingOnLoad();
